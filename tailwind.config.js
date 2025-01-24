@@ -1,6 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./**/*.{html,js}"],
+  content: {
+    ["./**/*.{html,js,rs}"],
+    transform: {
+      rs: (content) => content.replace(/(?:^|\s)class:/g, ' '),
+    },
+  }
   theme: {
     extend: {
     },

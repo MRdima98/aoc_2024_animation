@@ -545,14 +545,8 @@
       max-width: 96rem;
     }
   }
-  .m-2 {
-    margin: calc(var(--spacing) * 2);
-  }
   .block {
     display: block;
-  }
-  .flex {
-    display: flex;
   }
   .inline-flex {
     display: inline-flex;
@@ -562,21 +556,6 @@
   }
   .table {
     display: table;
-  }
-  .h-0 {
-    height: calc(var(--spacing) * 0);
-  }
-  .h-7 {
-    height: calc(var(--spacing) * 7);
-  }
-  .w-0 {
-    width: calc(var(--spacing) * 0);
-  }
-  .w-6 {
-    width: calc(var(--spacing) * 6);
-  }
-  .w-8 {
-    width: calc(var(--spacing) * 8);
   }
   .flex-grow {
     flex-grow: 1;
@@ -597,8 +576,11 @@
     border-style: var(--tw-border-style);
     border-width: 1px;
   }
-  .bg-red-200 {
-    background-color: var(--color-red-200);
+  .bg-red-100 {
+    background-color: var(--color-red-100);
+  }
+  .bg-red-500 {
+    background-color: var(--color-red-500);
   }
   .underline {
     text-decoration-line: underline;
@@ -614,12 +596,7 @@
   .filter {
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
-  .\[sb\:�I����������������L\/�\2 �\/�\/\2 \1a �3��f\14 �n9j\14 \11 uG\<v�����������������\3 �e\] {
-    sb: �I                L/��/�/�3��f�n9juG<v                ��e;
-  }
 }
-@tailwind base;
-@tailwind components;
 @keyframes spin {
   to {
     transform: rotate(360deg);

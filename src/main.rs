@@ -1,5 +1,6 @@
 use leptos::mount::mount_to_body;
 use leptos::prelude::*;
+use leptos_meta::*;
 use gloo_timers::callback::Timeout;
 
 fn main() {
@@ -19,6 +20,7 @@ fn App() -> impl IntoView {
     }).forget();
 
     view! {
+        <Stylesheet id="leptos" href="/style.css" />
         <div style=move || {
             format!("background-color: {}; position: fixed; top:0px; left:0px;", left.get())
         }>Square 1</div>
@@ -29,7 +31,9 @@ fn App() -> impl IntoView {
                 pos.get(),
             )
         }>Square 2</div>
-        <button on:click=move |_| *set_left.write() = "blue".to_string()>"Red"</button>
+        <button class="bg-red-100" on:click=move |_| *set_left.write() = "blue".to_string()>
+            "Red"
+        </button>
         <button on:click=move |_| *set_count.write() += 1>"Click me: " {count}</button>
     }
 }

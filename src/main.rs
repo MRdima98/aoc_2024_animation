@@ -1,7 +1,7 @@
+use gloo_timers::callback::Timeout;
 use leptos::mount::mount_to_body;
 use leptos::prelude::*;
 use leptos_meta::*;
-use gloo_timers::callback::Timeout;
 
 fn main() {
     mount_to_body(App);
@@ -13,11 +13,14 @@ fn App() -> impl IntoView {
     let (left, set_left) = signal("red".to_string());
     let (right, set_right) = signal("blue".to_string());
     let (pos, set_pos) = signal("50px");
+    // let (values, set_values) = create_signal::<Vec<usize>>(vec![1, 2, 3]);
+    let values = vec![100, 200, 300];
 
     Timeout::new(1000, move || {
         //*set_color.write() = "blue".to_string();
         *set_pos.write() = "20px"
-    }).forget();
+    })
+    .forget();
 
     view! {
         <Stylesheet id="leptos" href="/style.css" />
@@ -31,9 +34,24 @@ fn App() -> impl IntoView {
                 pos.get(),
             )
         }>Square 2</div>
-        <button class="bg-red-100" on:click=move |_| *set_left.write() = "blue".to_string()>
+        <button class="bg-gruvbox" on:click=move |_| *set_left.write() = "blue".to_string()>
             "Red"
         </button>
+
         <button on:click=move |_| *set_count.write() += 1>"Click me: " {count}</button>
+
+        // this will just render "012"
+        <p>{values.clone()}</p>
+        // or we can wrap them in <li>
+        <ul>
+            // {values.into_iter()
+            //     .map(|n| view! { <li class=move || n></li>})
+            //     .collect::<Vec<_>>()}
+            <For each=move|| values.clone() key=|item| item.clone()
+                children=|item| view! {
+                    <li class="bg-red-500" style=format!("width: {}px", item)>lollone</li>
+                }
+            />
+        </ul>
     }
 }

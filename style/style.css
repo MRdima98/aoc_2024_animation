@@ -368,7 +368,6 @@
     --default-mono-font-family: var(--font-mono);
     --default-mono-font-feature-settings: var(--font-mono--font-feature-settings);
     --default-mono-font-variation-settings: var(--font-mono--font-variation-settings);
-    --color-gruvbox: #282828;
   }
 }
 @layer base {
@@ -525,9 +524,6 @@
   .relative {
     position: relative;
   }
-  .static {
-    position: static;
-  }
   .container {
     width: 100%;
     @media (width >= 40rem) {
@@ -549,9 +545,6 @@
   .block {
     display: block;
   }
-  .hidden {
-    display: none;
-  }
   .inline-flex {
     display: inline-flex;
   }
@@ -560,12 +553,6 @@
   }
   .table {
     display: table;
-  }
-  .h-9 {
-    height: calc(var(--spacing) * 9);
-  }
-  .h-screen {
-    height: 100vh;
   }
   .flex-grow {
     flex-grow: 1;
@@ -586,11 +573,11 @@
     border-style: var(--tw-border-style);
     border-width: 1px;
   }
-  .bg-blue-100 {
-    background-color: var(--color-blue-100);
+  .bg-blue-500 {
+    background-color: var(--color-blue-500);
   }
-  .bg-gruvbox {
-    background-color: var(--color-gruvbox);
+  .bg-red-100 {
+    background-color: var(--color-red-100);
   }
   .bg-red-500 {
     background-color: var(--color-red-500);

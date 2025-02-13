@@ -1,4 +1,5 @@
 use gloo_timers::future::TimeoutFuture;
+use leptos::logging::log;
 use leptos::prelude::*;
 use leptos::task::spawn_local;
 use leptos_use::use_window_size;
@@ -7,20 +8,27 @@ use leptos_use::use_window_size;
 pub fn Day1() -> impl IntoView {
 let screen = use_window_size();
     let (values, set_values) = signal(vec![]);
-    let (left, setLeft) = signal(vec![]);
-    let mut right = vec![];
-    let mut diff = vec![];
+    let (test, set_test) = signal(vec![]);
+    let mut left = vec![200, 300, 400, 500];
+    let mut right = vec![210, 250, 450, 470];
+    let mut diff = vec![210, 250, 450, 470];
+
+    let val = 5;
     spawn_local(async move{
-        (*setLeft.write(), right, diff) = get_todo().await.unwrap();
+        let (one, _, _) = get_todo().await.unwrap();
+        set_test.write().push(one[0].clone());
+        set_test.write().push(val);
     });
-    
-    let max1 = left.get().iter().max().unwrap().clone();
+
+    log!("{:?}", test.get());
+
+    let max1 = left.iter().max().unwrap().clone();
     let max2 = left.iter().max().unwrap().clone();
     let max = max1.max(max2);
     let height = ((screen.height.get() as usize) * 11/12) /left.iter().len() as usize;
     let mut lists = vec![];
 
-    for el in left.get().iter_mut() {
+    for el in left.iter_mut() {
         if *el == max {
             *el = 100 as usize;
             continue;

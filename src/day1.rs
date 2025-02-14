@@ -2,66 +2,53 @@ use gloo_timers::future::TimeoutFuture;
 use leptos::logging::log;
 use leptos::prelude::*;
 use leptos::task::spawn_local;
-use leptos_use::use_window_size;
 
 #[component]
 pub fn Day1() -> impl IntoView {
-let screen = use_window_size();
     let (values, set_values) = signal(vec![]);
-    let (test, set_test) = signal(vec![]);
-    let mut left = vec![200, 300, 400, 500];
-    let mut right = vec![210, 250, 450, 470];
-    let mut diff = vec![210, 250, 450, 470];
-
-    let val = 5;
-    spawn_local(async move{
-        let (one, _, _) = get_todo().await.unwrap();
-        set_test.write().push(one[0].clone());
-        set_test.write().push(val);
-    });
-
-    log!("{:?}", test.get());
-
-    let max1 = left.iter().max().unwrap().clone();
-    let max2 = left.iter().max().unwrap().clone();
-    let max = max1.max(max2);
-    let height = ((screen.height.get() as usize) * 11/12) /left.iter().len() as usize;
-    let mut lists = vec![];
-
-    for el in left.iter_mut() {
-        if *el == max {
-            *el = 100 as usize;
-            continue;
-        } 
-        *el = (*el * 100) / max;
-    }
-
-    for el in right.iter_mut() {
-        if *el == max {
-            *el = 100 as usize;
-            continue;
-        } 
-        *el = (*el * 100) / max;
-    }
-
-    let mut i = 0;
-    for el in left.iter() {
-        lists.push((*el, right[i],height ));
-        i += 1;
-    }
-
-    let (width, _) = signal(lists);
-    let (text, setText) = signal(" empty".to_string());
 
     spawn_local(async move{
-        for el in width.get() {
-            TimeoutFuture::new(200).await;
-            set_values.write().push(el);
+        let (mut left,mut right, _diff) = get_todo().await.unwrap();
+        let max1 = left.iter().max().unwrap().clone();
+        let max2 = right.iter().max().unwrap().clone();
+        let max = max1.max(max2);
+
+        left.sort();
+        right.sort();
+
+        for (idx, el) in left.iter().enumerate() {
+            TimeoutFuture::new(1).await;
+            if *el == max {
+                set_values.write().push((100, (right[idx] * 100) /max));
+            } else if right[idx] == max {
+                set_values.write().push(((*el * 100)/max, 100));
+            } else {
+                set_values.write().push(((*el * 100)/max, (right[idx] * 100) /max));
+            }
         }
+
+        //TimeoutFuture::new(50).await;
+        //*set_values.write() = vec![];
+        //left.sort();
+        //right.sort();
+        //
+        //for (idx, el) in left.iter().enumerate() {
+        //    TimeoutFuture::new(2).await;
+        //    log!("{:?}", (*el * 100)/max);
+        //    if *el == max {
+        //        set_values.write().push((100, (right[idx] * 100) /max, height));
+        //    } else if right[idx] == max {
+        //        set_values.write().push(((*el * 100)/max, 100, height));
+        //    } else {
+        //        set_values.write().push(((*el * 100)/max, (right[idx] * 100) /max, height));
+        //    }
+        //}
+        //
+        //log!("{}", values.get().len());
     });
+
 
     view! {
-        <div class="text-white">Num: {text}</div>
         <ul class="w-11/12 h-11/12">
             <For
                 each=move || values.get()
@@ -71,11 +58,11 @@ let screen = use_window_size();
                         <li class="relative">
                             <div
                                 class="bg-green-500 absolute"
-                                style=format!("width: {}%; height: {}px", item.0, item.2)
+                                style=format!("width: {}%; height: {}px", item.0, 1)
                             ></div>
                             <div
                                 class="bg-violet-500"
-                                style=format!("width: {}%; height: {}px", item.1, item.2)
+                                style=format!("width: {}%; height: {}px", item.1, 1)
                             ></div>
                         </li>
                     }
